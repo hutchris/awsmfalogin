@@ -2,7 +2,6 @@ import os
 import platform
 import boto3
 import argparse
-from datetime import datetime
 
 parser = argparse.ArgumentParser()
 parser.add_argument('token',help='Value from the authenticator token on your phone')
