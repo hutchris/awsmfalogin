@@ -12,12 +12,13 @@ parser = argparse.ArgumentParser(
 parser.add_argument('token',help='Value from the authenticator token on your phone')
 parser.add_argument('--username','-u',help='AWS username')
 parser.add_argument('--serialnumber','-s',help='serial number from mfa token, found in your IAM user profile in the AWS console')
+parser.add_argument('--profile','-p',help='Credential profile from your ~/.aws/credentials file. Default=default',default='default')
 args = parser.parse_args()
 
 if args.serialnumber is None and args.username is None:
 	raise(Error("Either username or serialnumber must be specified"))
 
-session = boto3.Session(profile_name='default')
+session = boto3.Session(profile_name=args.profile)
 
 if args.serialnumber is None:
 	iam = session.client('iam')
