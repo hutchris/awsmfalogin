@@ -24,8 +24,8 @@ if args.serialnumber is None:
 	iam = session.client('iam')
 	mfaDevices = iam.list_virtual_mfa_devices()
 	for device in mfaDevices['VirtualMFADevices']:
-		 if device['User']['UserName'] == args.username:
-		 	serialnumber = device['SerialNumber']
+		 if 'UserName' in device['User'] and device['User']['UserName'] == args.username:
+    		 	serialnumber = device['SerialNumber']
 else:
 	serialnumber = args.serialnumber
 
