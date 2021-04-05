@@ -35,10 +35,12 @@ creds = sts.get_session_token(SerialNumber=serialnumber,TokenCode=args.token)
 ak = 'AWS_ACCESS_KEY_ID={}'.format(creds['Credentials']['AccessKeyId'])
 sk = 'AWS_SECRET_ACCESS_KEY={}'.format(creds['Credentials']['SecretAccessKey'])
 tk = 'AWS_SESSION_TOKEN={}'.format(creds['Credentials']['SessionToken'])
+rg = 'AWS_DEFAULT_REGION={}'.format(session.region_name)
 
 if platform.system() == 'Linux':
-    print('export ' + ak + ' ' + sk + ' ' + tk)
+    print('export ' + ak + ' ' + sk + ' ' + tk + ' ' + rg)
 else:
     print('set ' + ak)
     print('set ' + sk)
     print('set ' + tk)
+    print('set ' + rg)
