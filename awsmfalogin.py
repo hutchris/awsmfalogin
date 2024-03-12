@@ -17,9 +17,11 @@ parser.add_argument('--profile','-p',help='Credential profile from your ~/.aws/c
 args = parser.parse_args()
 
 if args.serialnumber is None and args.username is None:
-    raise(Error("Either username or serialnumber must be specified"))
+    raise(Exception("Either username or serialnumber must be specified"))
 
 session = boto3.Session(profile_name=args.profile)
+
+serialnumber = None
 
 if args.serialnumber is None:
     iam = session.client('iam')
@@ -32,12 +34,11 @@ else:
     serialnumber = args.serialnumber
 
 sts = session.client('sts')
-creds = sts.get_session_token(SerialNumber=serialnumber,TokenCode=args.token)
 
-# ak = 'AWS_ACCESS_KEY_ID={}'.format(creds['Credentials']['AccessKeyId'])
-# sk = 'AWS_SECRET_ACCESS_KEY={}'.format(creds['Credentials']['SecretAccessKey'])
-# tk = 'AWS_SESSION_TOKEN={}'.format(creds['Credentials']['SessionToken'])
-# rg = 'AWS_DEFAULT_REGION={}'.format(session.region_name)
+if serialnumber is None:
+    raise(Exception("User doesn't exist or no token assigned to user"))
+else:
+    creds = sts.get_session_token(SerialNumber=serialnumber,TokenCode=args.token)
 
 
 ak = creds['Credentials']['AccessKeyId']
